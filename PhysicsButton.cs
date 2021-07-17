@@ -16,13 +16,24 @@ public class PhysicsButton : MonoBehaviour
     private bool prevPressedState;
     public AudioSource pressedSound;
     public AudioSource releasedSound;
+    public Collider[] CollidersToIgnore;
     public UnityEvent onPressed;
     public UnityEvent onReleased;
 
     // Start is called before the first frame update
     void Start()
     {
-        Physics.IgnoreCollision(GetComponent<Collider>(),buttonTop.GetComponent<Collider>());
+        Collider localCollider = GetComponent<Collider>();
+        if (localCollider != null)
+        {
+            Physics.IgnoreCollision(localCollider, buttonTop.GetComponentInChildren<Collider>());
+
+            foreach (Collider singleCollider in CollidersToIgnore)
+            {
+                Physics.IgnoreCollision(localCollider, singleCollider);
+            }
+        }
+        
         if (transform.eulerAngles != Vector3.zero){
             Vector3 savedAngle = transform.eulerAngles;
             transform.eulerAngles = Vector3.zero;
