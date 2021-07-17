@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class PhysicsButton : MonoBehaviour
 {
+    public Rigidbody buttonTopRigid;
     public Transform buttonTop;
     public Transform buttonLowerLimit;
     public Transform buttonUpperLimit;
@@ -40,7 +41,7 @@ public class PhysicsButton : MonoBehaviour
         if (buttonTop.localPosition.y >= 0)
             buttonTop.transform.position = new Vector3(buttonUpperLimit.position.x, buttonUpperLimit.position.y, buttonUpperLimit.position.z);
         else
-            buttonTop.GetComponent<Rigidbody>().AddForce(buttonTop.transform.up * force * Time.fixedDeltaTime);
+            buttonTopRigid.AddForce(buttonTop.transform.up * force * Time.deltaTime);
 
         if (buttonTop.localPosition.y <= buttonLowerLimit.localPosition.y)
             buttonTop.transform.position = new Vector3(buttonLowerLimit.position.x, buttonLowerLimit.position.y, buttonLowerLimit.position.z);
